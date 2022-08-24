@@ -1,0 +1,51 @@
+#input data
+#keeping nextstrain reference data in there to maintain tree topology (at least for now). Mainly I think this is to ensure Wuhan root is in there.
+inputs:
+  - name: reference_data
+    metadata: https://data.nextstrain.org/files/ncov/open/reference/metadata.tsv.xz
+    aligned: https://data.nextstrain.org/files/ncov/open/reference/aligned.fasta.xz
+  - name: covidtracker_data
+    metadata: data/covidtracker-metadata.tsv
+    sequences: data/covidtracker-sequences.fasta
+#At some point will probably want the full GISAID pull down here as a source dataset for focal set contextualization
+#But for now, just setting up phylogeo of CA data only + nextstrain ref data to maintain tree topology/clock rate.
+
+#specify root sequence for the refine rule:
+refine:
+  root: "Wuhan-Hu-1/2019"
+  
+
+#Define the build that this pipeline will create (note there can be multiple builds per pipeline, but here only one.)
+builds:
+  covidtracker-phylogeo:
+    title: "Phylogeographic analysis of CovidTracker project data within California."
+    subsampling_scheme: county-equitable-sample
+    # Defines colorings for input data sources
+    # (e.g. "background_data" is "yes" or "no").
+    auspice_config: config/auspice_config_covidtracker-phylogeog.json
+
+#Define the subsampling scheme that this covidtracker build will use.
+#includes equitable subsampling of the counties and contextual data inclusion.
+#Going forward, might want to vary subsampling parameters to explore the sensitivity of the analysis to different sampling schemes/biases.
+#Also will need to move global context pull from Nextstrain reference file to full GISAID file (request from Dan)
+subsampling:
+  county-equitable-sample:
+    covidtracker_data:
+      query: --query "(covidtracker_data == 'yes')"
+      group_by: division year month
+      max_sequences: 5000
+    #select global contextual data such that it is genetically proximal to covidtracker data.
+    global_context:
+      query: --query "(covidtracker_data != 'yes')"
+      max_sequences: 1000
+      priorities:
+        type: proximity
+        focus: covidtracker_data
+
+#Ancestral states reconstruction of the county trait as part of covidtracker build.
+#might be good at some point to also reconstruct a north/south and/or urban/rural as well,
+#but need to figure out how to assign those traits to sequences first.
+traits:
+  covidtracker-phylogeo:
+    sampling_bias_correction: 2.5 #default
+    columns: ["location"] #this is what the county-information is specified as in the metadata file.

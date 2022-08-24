@@ -1,0 +1,45 @@
+{
+  "title": "Genomic epidemiology of novel coronavirus in California - CovidTracker Project Data",
+  "build_url": "tbd",
+  "maintainers": [{"name": "Alli Black"}],
+  "colorings": [
+      {
+      "key": "location",
+      "title": "Location",
+      "type": "categorical"
+    },
+    {
+      "key": "division",
+      "title": "Admin Division",
+      "type": "categorical"
+    },
+    {
+      "key": "country",
+      "title": "Country",
+      "type": "categorical"
+    },
+    {
+      "key": "region",
+      "title": "Region",
+      "type": "categorical"
+    },
+    {
+      "key": "custom_data",
+      "title": "is covidtracker sample or not?",
+      "type": "categorical",
+      "legend": [
+        {"value": "no"},
+        {"value": "yes"}
+      ],
+      "scale": [
+        ["no", "#4c90c0"],
+        ["yes", "#cbb742"]
+      ]
+    }
+  ],
+  "display_defaults": {
+    "color_by": "location",
+    "distance_measure": "num_date",
+    "branch_label": "none"
+  }  
+}
