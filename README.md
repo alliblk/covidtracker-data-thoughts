@@ -22,7 +22,7 @@ Once that fasta file has been decompressed, you can run the workflow within the 
 ### Introductions of SARS-CoV-2 to California
 
 I would be interested here in looking at patterns of SCV-2 introductions to California over time. In particular, I would be interested in the frequency of SARS-CoV-2 introductions during the early portion of the epidemic. How many are there, and how long do they circulate for after introduction? How do these patterns compare during periods of lockdown versus when lockdowns were eased?
-Here I’d do a phylogeographic analysis of downsampled CovidTracker data with a lot of contextual genomic data from other parts of the US and the world. I would use genetic proximity to CovidTracker focal samples as my criteria for including contextual data. 
+Here I’d do a phylogeographic analysis of downsampled CovidTracker data with a lot of contextual genomic data from other parts of the US and the world. I would use genetic proximity to CovidTracker focal samples as my criteria for including contextual data. Note that the current workflow stubbed out in this repo sources context simply from the Nextstrain team's reference files. For the proper analysis, full data from GISAID should be pulled (contact Dan Lu at CZI).
 
 ### Within-CA county-level phylogeographic analysis
 
